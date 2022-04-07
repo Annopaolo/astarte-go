@@ -28,7 +28,7 @@ import (
 
 const defaultPageSize int = 10000
 
-var invalidTime time.Time = time.Unix(0, 0)
+var invalidTime = time.Unix(0, 0)
 
 // AppEngineService is the API Client for AppEngine API
 type AppEngineService struct {

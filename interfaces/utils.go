@@ -275,6 +275,7 @@ func processGenericSlice(mappingType AstarteMappingType, c []interface{}) error 
 	return nil
 }
 
+// nolint:gocognit
 func validateType(mappingType AstarteMappingType, value interface{}) error {
 	// Do a case switch and check, depending on the golang type of value, whether
 	// we have a match with the Astarte type or not.

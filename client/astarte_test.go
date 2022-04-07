@@ -27,7 +27,7 @@ const (
 	testTokenValue = "bogus"
 )
 
-var testInterfaces map[string]string = map[string]string{
+var testInterfaces = map[string]string{
 	"org.astarte-platform.genericsensors.Values": `{
 		"interface_name": "org.astarte-platform.genericsensors.Values",
 		"version_major": 0,
@@ -96,7 +96,7 @@ var testInterfaces map[string]string = map[string]string{
 	}`,
 }
 
-var testDevices []string = []string{"1vMeFtaJQF259nMsnis3sw", "t1J1uQSBQRi_1F3zIrjyYw", "V_pY-ZrLQzWz4iGjGu-NuQ"}
+var testDevices = []string{"1vMeFtaJQF259nMsnis3sw", "t1J1uQSBQRi_1F3zIrjyYw", "V_pY-ZrLQzWz4iGjGu-NuQ"}
 
 func astarteAPIMock(w http.ResponseWriter, req *http.Request) {
 	authorization := req.Header.Get("Authorization")
