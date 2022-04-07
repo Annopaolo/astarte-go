@@ -72,6 +72,13 @@ linters-settings:
     # report about shadowed variables
     check-shadowing: true
     enable-all: true
+    disable:
+    # "That seems like it is trying to solve a 1970s problem, namely packing structs to use
+    # as little space as possible. The 2010s problem is to put related fields near each other
+    # [...] and there is no obvious way [...] to pick an optimal solution."
+    # Russ Cox, Golang team
+    # Source: https://github.com/golang/go/issues/10014#issuecomment-91436342
+    - fieldalignment
   depguard:
   lll:
     # max line length, lines longer will be reported. Default is 120.
@@ -125,16 +132,15 @@ linters:
     - goconst
     - gocritic
     - gocyclo
-    - golint
+    - revive
     - gofmt
     - goimports
     - goprintffuncname
     - gosec
     #- lll
-    - maligned
     - misspell
     - prealloc
-    - scopelint
+    - exportloopref
     - unconvert
     - unparam
 
