@@ -20,6 +20,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"strings"
+
+	"github.com/openlyinc/pointy"
 )
 
 // AstarteInterfaceType represents which kind of Astarte interface the object represents
@@ -377,6 +379,21 @@ func (r *requiredAstarteInterface) ensureRequiredFields(b []byte) error {
 	return nil
 }
 
+// ensureInterfaceVersion ensures that MajorVersion and MinorVersion fields within an AstarteInterface are not both 0.
+func (r *requiredAstarteInterface) ensureInterfaceVersion(b []byte) error {
+	required := requiredAstarteInterface{}
+	if err := json.Unmarshal(b, &required); err != nil {
+		return err
+	}
+
+	if pointy.IntValue(required.MajorVersion, 0) < 0 {
+		if pointy.IntValue(required.MinorVersion, 0) <= 0 {
+			return errors.New("Invalid interface: version_major and version_minor must neither be negative, nor both 0")
+		}
+	}
+	return nil
+}
+
 // ParseInterfaceFromFile is a convenience function to call ParseInterface with a file as input
 func ParseInterfaceFromFile(interfaceFile string) (AstarteInterface, error) {
 	b, err := ioutil.ReadFile(interfaceFile)
@@ -399,6 +416,10 @@ func ParseInterface(interfaceContent []byte) (AstarteInterface, error) {
 	required := requiredAstarteInterface{}
 
 	if err := required.ensureRequiredFields(interfaceContent); err != nil {
+		return astarteInterface, err
+	}
+
+	if err := required.ensureInterfaceVersion(interfaceContent); err != nil {
 		return astarteInterface, err
 	}
 

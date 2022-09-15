@@ -583,3 +583,37 @@ func TestFailedOwnershipParsing(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestFailedInterfaceVersionParsing(t *testing.T) {
+	invalidInterface := `
+	{
+		"interface_name": "org.astarte-platform.genericsensors.AvailableSensors",
+		"version_major": 0,
+		"version_minor": 0,
+		"type": "properties",
+		"ownership": "device",
+		"description": "Describes available generic sensors.",
+		"doc": "This interface allows to describe available sensors and their attributes such as name and sampled data measurement unit. Sensors are identified by their sensor_id. See also org.astarte-platform.genericsensors.AvailableSensors.",
+		"mappings": [
+			{
+				"endpoint": "/%{sensor_id}/name",
+				"type": "string",
+				"description": "Sensor name.",
+				"doc": "An arbitrary sensor name.",
+				"retention": "discard",
+				"reliability": "unreliable",
+				"database_retention_policy": "use_ttl",
+				"database_retention_ttl": 200
+			},
+			{
+				"endpoint": "/%{sensor_id}/unit",
+				"type": "string",
+				"description": "Sample data measurement unit.",
+				"doc": "SI unit such as m, kg, K, etc..."
+			}
+		]
+	}`
+	if _, err := ParseInterfaceFromString(invalidInterface); err == nil {
+		t.Error(err)
+	}
+}
